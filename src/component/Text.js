@@ -1,16 +1,15 @@
 import { Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { UserContex } from "./hookspass/Context";
-import { useContext } from "react";
+
 const Text = () => {
-  const { text, name, count } = useContext(UserContex);
+  const { state } = useContext(UserContex);
   return (
     <div>
       <Typography sx={{ fontSize: "32px" }}>
-        {text}
-        {count}
+        {state.text} {state.count}
       </Typography>
-      <Typography sx={{ fontSize: "20px" }}>{name}</Typography>
+      <Typography sx={{ fontSize: "20px" }}>{state.name}</Typography>
     </div>
   );
 };
