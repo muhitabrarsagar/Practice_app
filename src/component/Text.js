@@ -1,9 +1,9 @@
 import { Typography } from "@mui/material";
 import React, { useContext } from "react";
-import { UserContex } from "./hookspass/Context";
+import { UserContext } from "./hookspass/Context";
 
 const Text = () => {
-  const { state } = useContext(UserContex);
+  const { state } = useContext(UserContext);
   return (
     <div>
       <Typography sx={{ fontSize: "32px" }}>

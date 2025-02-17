@@ -1,17 +1,21 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import React, { useReducer } from "react";
-import { UserContex } from "../hookspass/Context";
+import React, { useReducer, useEffect } from "react";
+import { UserContext } from "../hookspass/Context";
 import Text from "../Text";
 
 const reducer = (state, action) => {
-  if (action.type === "INCREMENT") {
-    return { ...state, count: state.count + 1, color: true };
-  } else if (action.type === "DECREMENT") {
-    return { ...state, count: state.count - 1 };
-  } else if (action.type === "SET_COUNT") {
-    return { ...state, count: action.payload };
-  } else {
-    return state;
+  switch (action.type) {
+    case "INCREMENT":
+      return { ...state, count: Number(state.count) + 1, color: true };
+
+    case "DECREMENT":
+      return { ...state, count: Number(state.count) - 1 };
+
+    case "SET_COUNT":
+      return { ...state, count: Number(action.payload) };
+
+    default:
+      return state;
   }
 };
 
@@ -25,8 +29,19 @@ const initialState = {
 const Buttons = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  useEffect(() => {
+    const storedCount = Number(localStorage.getItem("count"));
+    if (storedCount) {
+      dispatch({ type: "SET_COUNT", payload: parseInt(storedCount) });
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("count", state.count);
+  }, [state.count]);
+
   return (
-    <UserContex.Provider value={{ state, dispatch }}>
+    <UserContext.Provider value={{ state, dispatch }}>
       <Text />
       <TextField
         onChange={(e) =>
@@ -47,7 +62,7 @@ const Buttons = () => {
         pluseone
       </Button>
       <Button onClick={() => dispatch({ type: "DECREMENT" })}>MiOne</Button>
-    </UserContex.Provider>
+    </UserContext.Provider>
   );
 };
 
