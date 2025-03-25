@@ -61,6 +61,8 @@ const Buttons = () => {
     dispatch({ type: "DECREMENT" });
   }, []);
 
+  const memoizedState = useMemo(() => state, [state]);
+
   return (
     <UserContext.Provider value={{ state: memoizedState, dispatch }}>
       <Text />
